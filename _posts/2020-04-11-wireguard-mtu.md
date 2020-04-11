@@ -2,6 +2,7 @@
 toc: true
 layout: post
 tags: [Network, WireGuard]
+author: proelbtn
 title: WireGuardを利用した時のMTUについて
 description: WireGuardを利用した時のMTUについて
 ---
