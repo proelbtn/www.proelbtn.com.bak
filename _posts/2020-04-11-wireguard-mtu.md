@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-categories: [Network, WireGuard]
+tags: [Network, WireGuard]
 title: WireGuardを利用した時のMTUについて
 description: WireGuardを利用した時のMTUについて
 ---
