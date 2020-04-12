@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>NATタイプとその判定法について | proelbtn’s page</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="NATタイプとその判定法について" />
+<meta name="author" content="proelbtn" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://www.proelbtn.com/2020/04/12/nat.html" />
+<meta property="og:url" content="https://www.proelbtn.com/2020/04/12/nat.html" />
+<meta property="og:site_name" content="proelbtn’s page" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-12T00:00:00-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"proelbtn"},"datePublished":"2020-04-12T00:00:00-05:00","headline":"NATタイプとその判定法について","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.proelbtn.com/2020/04/12/nat.html"},"@type":"BlogPosting","url":"https://www.proelbtn.com/2020/04/12/nat.html","dateModified":"2020-04-12T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://www.proelbtn.com/feed.xml" title="proelbtn's page" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-89841910-15','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>NATタイプとその判定法について | proelbtn’s page</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="NATタイプとその判定法について" />
+<meta name="author" content="proelbtn" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://www.proelbtn.com/2020/04/12/nat.html" />
+<meta property="og:url" content="https://www.proelbtn.com/2020/04/12/nat.html" />
+<meta property="og:site_name" content="proelbtn’s page" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-12T00:00:00-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"proelbtn"},"datePublished":"2020-04-12T00:00:00-05:00","headline":"NATタイプとその判定法について","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.proelbtn.com/2020/04/12/nat.html"},"@type":"BlogPosting","url":"https://www.proelbtn.com/2020/04/12/nat.html","dateModified":"2020-04-12T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://www.proelbtn.com/feed.xml" title="proelbtn's page" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-89841910-15','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">proelbtn&#39;s page</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/tags/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">NATタイプとその判定法について</h1><p class="page-description"></p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-04-12T00:00:00-05:00" itemprop="datePublished">
+        Apr 12, 2020
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">proelbtn</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      <span class="category-tags-link">
+      
+        <a class="category-tags-link" href="/tags/#Network">Network</a>, 
+      
+        <a class="category-tags-link" href="/tags/#WireGuard">WireGuard</a>
+      
+      </span>
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#用語">用語</a></li>
+<li class="toc-entry toc-h2"><a href="#natの種類">NATの種類</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#full-cone">Full Cone</a></li>
+<li class="toc-entry toc-h3"><a href="#restricted-cone">Restricted Cone</a></li>
+<li class="toc-entry toc-h3"><a href="#port-restricted-cone">Port Restricted Cone</a></li>
+<li class="toc-entry toc-h3"><a href="#symmetric">Symmetric</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#natタイプの判定法">NATタイプの判定法</a></li>
+<li class="toc-entry toc-h2"><a href="#追記">追記</a></li>
+</ul><p>少しNATに関する事を調べる機会があったのでメモ。</p>
+
+<h2 id="用語">
+<a class="anchor" href="#%E7%94%A8%E8%AA%9E" aria-hidden="true"><span class="octicon octicon-link"></span></a>用語</h2>
+
+<ul>
+  <li>internal IP address: NATされる前のIPアドレス</li>
+  <li>internal port: NATされる前のポート番号</li>
+  <li>external IP address: NATされた後のIPアドレス</li>
+  <li>external port: NATされた後のポート番号</li>
+</ul>
+
+<h2 id="natの種類">
+<a class="anchor" href="#nat%E3%81%AE%E7%A8%AE%E9%A1%9E" aria-hidden="true"><span class="octicon octicon-link"></span></a>NATの種類</h2>
+
+<p>NATにはexternal IP address, portの決定方法や、そのエンドポイントと通信が出来るホストの範囲によって4種類に大分することが出来る。</p>
+
+<h3 id="full-cone">
+<a class="anchor" href="#full-cone" aria-hidden="true"><span class="octicon octicon-link"></span></a>Full Cone</h3>
+
+<p>Full Coneでは、external IP address, portがinternal IP address, portによって決定する。このようなアドレス・ポート番号選択の挙動をEIM（Endpoint Independent Mapping）<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>と呼ぶ。また、一度このポートのマッピングが決定されると、外部ネットワークのどのホストからでもそのエンドポイントを介して通信を行うことが出来る。このようなフィルタリングの挙動をEIF（Endpoint Independent Filtering）<sup id="fnref:1:1"><a href="#fn:1" class="footnote">1</a></sup>という。</p>
+
+<p>MNOやMVNOなどのモバイルキャリアで持ちられるCGN（Carrier Grade NAT）では、Full ConeにすることでCGN透過性が上がりP2Pでの接続が行いやすくなる事が知られている<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>。</p>
+
+<h3 id="restricted-cone">
+<a class="anchor" href="#restricted-cone" aria-hidden="true"><span class="octicon octicon-link"></span></a>Restricted Cone</h3>
+
+<p>Restricted ConeはFull Coneと同様にEIMによってアドレスやポート番号が選択される。だが、セキュリティ上の制約から、一度そのエンドポイントを介して通信が行われたIPアドレスからのみ、内部の端末と通信が行えるようなフィルタリングがなされている。このようなフィルタリングの挙動をEDF（Endpoint Dependent Filtering）<sup id="fnref:1:2"><a href="#fn:1" class="footnote">1</a></sup>, 特にAddress-Dependent Filteringという。</p>
+
+<h3 id="port-restricted-cone">
+<a class="anchor" href="#port-restricted-cone" aria-hidden="true"><span class="octicon octicon-link"></span></a>Port Restricted Cone</h3>
+
+<p>Port Restricted ConeはRestricted Coneよりも更に制約を厳しくしたものである。一度そのエンドポイントを介して通信が行われたエンドポイントからのみ、内部の端末と通信が行えるようなフィルタリングがなされている。このようなフィルタリングの挙動はAddress and Port-Dependent Filteringと呼ばれる。</p>
+
+<h3 id="symmetric">
+<a class="anchor" href="#symmetric" aria-hidden="true"><span class="octicon octicon-link"></span></a>Symmetric</h3>
+
+<p>Symmetricでは、external IP address, portを決定する際に、internal IP address, port, 通信先のIP address, portを利用して決定する。このアドレス・ポート番号選択の仕組みは通信先のエンドポイントに依存しているため、EDM（Endpoint Dependent Mapping）<sup id="fnref:1:3"><a href="#fn:1" class="footnote">1</a></sup>と呼ばれる。</p>
+
+<h2 id="natタイプの判定法">
+<a class="anchor" href="#nat%E3%82%BF%E3%82%A4%E3%83%97%E3%81%AE%E5%88%A4%E5%AE%9A%E6%B3%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>NATタイプの判定法</h2>
+
+<p>NATタイプの判定法に関してはRFC3489に示されている<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>。</p>
+
+<h2 id="追記">
+<a class="anchor" href="#%E8%BF%BD%E8%A8%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>追記</h2>
+
+<p>EIM, EIFはプロトコルに依存しない形にも依存する形にも出来る。依存する場合、TCP SYNで(int IP, int port)と(ext IP, ext port)のマッピングが作成された時、同一のIPとportから送られてきたUDPのパケットはそのマッピングを利用してNATされ、そのマッピングに対応するフィルタリングが利用される（デフォルトの挙動）<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>。</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p><a href="https://tools.ietf.org/rfc/rfc5128.txt">https://tools.ietf.org/rfc/rfc5128.txt</a> <a href="#fnref:1" class="reversefootnote">↩</a> <a href="#fnref:1:1" class="reversefootnote">↩<sup>2</sup></a> <a href="#fnref:1:2" class="reversefootnote">↩<sup>3</sup></a> <a href="#fnref:1:3" class="reversefootnote">↩<sup>4</sup></a></p>
+    </li>
+    <li id="fn:2">
+      <p><a href="https://www.soumu.go.jp/main_content/000352303.pdf">https://www.soumu.go.jp/main_content/000352303.pdf</a> <a href="#fnref:2" class="reversefootnote">↩</a></p>
+    </li>
+    <li id="fn:3">
+      <p><a href="https://tools.ietf.org/html/rfc3489">https://tools.ietf.org/html/rfc3489</a> <a href="#fnref:3" class="reversefootnote">↩</a></p>
+    </li>
+    <li id="fn:4">
+      <p><a href="https://tools.ietf.org/html/rfc7857#section-5">https://tools.ietf.org/html/rfc7857#section-5</a> <a href="#fnref:4" class="reversefootnote">↩</a></p>
+    </li>
+  </ol>
+</div>
+
+  </div><a class="u-url" href="/2020/04/12/nat.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/proelbtn" title="proelbtn"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/proelbtn" title="proelbtn"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

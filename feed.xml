@@ -1,4 +1,60 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://www.proelbtn.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.proelbtn.com/" rel="alternate" type="text/html" /><updated>2020-04-12T02:43:53-05:00</updated><id>https://www.proelbtn.com/feed.xml</id><title type="html">proelbtn’s page</title><subtitle></subtitle><entry><title type="html">WireGuardを利用した時のMTUについて</title><link href="https://www.proelbtn.com/2020/04/11/wireguard-mtu.html" rel="alternate" type="text/html" title="WireGuardを利用した時のMTUについて" /><published>2020-04-11T00:00:00-05:00</published><updated>2020-04-11T00:00:00-05:00</updated><id>https://www.proelbtn.com/2020/04/11/wireguard-mtu</id><content type="html" xml:base="https://www.proelbtn.com/2020/04/11/wireguard-mtu.html">&lt;p&gt;2019年に登場した次世代のVPNとしてWireGuardというVPNがある。L3VPNしか張れないという制約はあるものの、Linuxの実装は4000行以下で済むほどシンプルなVPNである。そのシンプルさとは裏腹に、OpenVPNやIPsecと比べて高いスループットを実現している（&lt;a href=&quot;https://www.wireguard.com/papers/wireguard.pdf&quot;&gt;Whitepaper&lt;/a&gt;）。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://www.proelbtn.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.proelbtn.com/" rel="alternate" type="text/html" /><updated>2020-04-12T06:54:41-05:00</updated><id>https://www.proelbtn.com/feed.xml</id><title type="html">proelbtn’s page</title><subtitle></subtitle><entry><title type="html">NATタイプとその判定法について</title><link href="https://www.proelbtn.com/2020/04/12/nat.html" rel="alternate" type="text/html" title="NATタイプとその判定法について" /><published>2020-04-12T00:00:00-05:00</published><updated>2020-04-12T00:00:00-05:00</updated><id>https://www.proelbtn.com/2020/04/12/nat</id><content type="html" xml:base="https://www.proelbtn.com/2020/04/12/nat.html">&lt;p&gt;少しNATに関する事を調べる機会があったのでメモ。&lt;/p&gt;
+
+&lt;h2 id=&quot;用語&quot;&gt;用語&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;internal IP address: NATされる前のIPアドレス&lt;/li&gt;
+  &lt;li&gt;internal port: NATされる前のポート番号&lt;/li&gt;
+  &lt;li&gt;external IP address: NATされた後のIPアドレス&lt;/li&gt;
+  &lt;li&gt;external port: NATされた後のポート番号&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;natの種類&quot;&gt;NATの種類&lt;/h2&gt;
+
+&lt;p&gt;NATにはexternal IP address, portの決定方法や、そのエンドポイントと通信が出来るホストの範囲によって4種類に大分することが出来る。&lt;/p&gt;
+
+&lt;h3 id=&quot;full-cone&quot;&gt;Full Cone&lt;/h3&gt;
+
+&lt;p&gt;Full Coneでは、external IP address, portがinternal IP address, portによって決定する。このようなアドレス・ポート番号選択の挙動をEIM（Endpoint Independent Mapping）&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;と呼ぶ。また、一度このポートのマッピングが決定されると、外部ネットワークのどのホストからでもそのエンドポイントを介して通信を行うことが出来る。このようなフィルタリングの挙動をEIF（Endpoint Independent Filtering）&lt;sup id=&quot;fnref:1:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;という。&lt;/p&gt;
+
+&lt;p&gt;MNOやMVNOなどのモバイルキャリアで持ちられるCGN（Carrier Grade NAT）では、Full ConeにすることでCGN透過性が上がりP2Pでの接続が行いやすくなる事が知られている&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+
+&lt;h3 id=&quot;restricted-cone&quot;&gt;Restricted Cone&lt;/h3&gt;
+
+&lt;p&gt;Restricted ConeはFull Coneと同様にEIMによってアドレスやポート番号が選択される。だが、セキュリティ上の制約から、一度そのエンドポイントを介して通信が行われたIPアドレスからのみ、内部の端末と通信が行えるようなフィルタリングがなされている。このようなフィルタリングの挙動をEDF（Endpoint Dependent Filtering）&lt;sup id=&quot;fnref:1:2&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, 特にAddress-Dependent Filteringという。&lt;/p&gt;
+
+&lt;h3 id=&quot;port-restricted-cone&quot;&gt;Port Restricted Cone&lt;/h3&gt;
+
+&lt;p&gt;Port Restricted ConeはRestricted Coneよりも更に制約を厳しくしたものである。一度そのエンドポイントを介して通信が行われたエンドポイントからのみ、内部の端末と通信が行えるようなフィルタリングがなされている。このようなフィルタリングの挙動はAddress and Port-Dependent Filteringと呼ばれる。&lt;/p&gt;
+
+&lt;h3 id=&quot;symmetric&quot;&gt;Symmetric&lt;/h3&gt;
+
+&lt;p&gt;Symmetricでは、external IP address, portを決定する際に、internal IP address, port, 通信先のIP address, portを利用して決定する。このアドレス・ポート番号選択の仕組みは通信先のエンドポイントに依存しているため、EDM（Endpoint Dependent Mapping）&lt;sup id=&quot;fnref:1:3&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;と呼ばれる。&lt;/p&gt;
+
+&lt;h2 id=&quot;natタイプの判定法&quot;&gt;NATタイプの判定法&lt;/h2&gt;
+
+&lt;p&gt;NATタイプの判定法に関してはRFC3489に示されている&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+
+&lt;h2 id=&quot;追記&quot;&gt;追記&lt;/h2&gt;
+
+&lt;p&gt;EIM, EIFはプロトコルに依存しない形にも依存する形にも出来る。依存する場合、TCP SYNで(int IP, int port)と(ext IP, ext port)のマッピングが作成された時、同一のIPとportから送られてきたUDPのパケットはそのマッピングを利用してNATされ、そのマッピングに対応するフィルタリングが利用される（デフォルトの挙動）&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://tools.ietf.org/rfc/rfc5128.txt&quot;&gt;https://tools.ietf.org/rfc/rfc5128.txt&lt;/a&gt; &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt; &lt;a href=&quot;#fnref:1:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt; &lt;a href=&quot;#fnref:1:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;sup&gt;3&lt;/sup&gt;&lt;/a&gt; &lt;a href=&quot;#fnref:1:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;sup&gt;4&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://www.soumu.go.jp/main_content/000352303.pdf&quot;&gt;https://www.soumu.go.jp/main_content/000352303.pdf&lt;/a&gt; &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://tools.ietf.org/html/rfc3489&quot;&gt;https://tools.ietf.org/html/rfc3489&lt;/a&gt; &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://tools.ietf.org/html/rfc7857#section-5&quot;&gt;https://tools.ietf.org/html/rfc7857#section-5&lt;/a&gt; &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name>proelbtn</name></author><category term="Network" /><category term="WireGuard" /><summary type="html">少しNATに関する事を調べる機会があったのでメモ。</summary></entry><entry><title type="html">WireGuardを利用した時のMTUについて</title><link href="https://www.proelbtn.com/2020/04/11/wireguard-mtu.html" rel="alternate" type="text/html" title="WireGuardを利用した時のMTUについて" /><published>2020-04-11T00:00:00-05:00</published><updated>2020-04-11T00:00:00-05:00</updated><id>https://www.proelbtn.com/2020/04/11/wireguard-mtu</id><content type="html" xml:base="https://www.proelbtn.com/2020/04/11/wireguard-mtu.html">&lt;p&gt;2019年に登場した次世代のVPNとしてWireGuardというVPNがある。L3VPNしか張れないという制約はあるものの、Linuxの実装は4000行以下で済むほどシンプルなVPNである。そのシンプルさとは裏腹に、OpenVPNやIPsecと比べて高いスループットを実現している（&lt;a href=&quot;https://www.wireguard.com/papers/wireguard.pdf&quot;&gt;Whitepaper&lt;/a&gt;）。&lt;/p&gt;
 
 &lt;p&gt;WireGuard自体のセットアップは非常に簡単だが、MTUの計算周りで少し躓いた。あまりこの部分にたいしても言及されていないため、メモとして残しておく。&lt;/p&gt;
 
